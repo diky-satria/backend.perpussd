@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\Kelas;
-use App\Models\Jurusan;
-use App\Models\Semester;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,36 +21,24 @@ class MahasiswaController extends Controller
 
     public function show(Mahasiswa $mahasiswa)
     {
-        $jurusan = Jurusan::orderBy('nama_jurusan', 'ASC')->get();
-        $semester = Semester::orderBy('id', 'ASC')->get();
         $kelas = Kelas::orderBy('id', 'ASC')->get();
         return response()->json([
             'data' => new MahasiswaResource($mahasiswa),
-            'jurusan' => $jurusan,
-            'semester' => $semester,
             'kelas' => $kelas
         ]); 
     }
 
-    public function store()
+    public function store() 
     {
         request()->validate([
-            'nim' => 'required|unique:mahasiswas,nim',
+            'nis' => 'required|unique:mahasiswas,nis',
             'nama' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'jurusan_id' => 'required',
-            'semester_id' => 'required',
             'kelas_id' => 'required',
             // 'gambar' => 'required|mimes:jpg,png,jpeg,gif|max:2048'
         ],[
-            'nim.required' => 'NIM harus di isi',
-            'nim.unique' => 'NIM sudah terdaftar',
+            'nis.required' => 'NIS harus di isi',
+            'nis.unique' => 'NIS sudah terdaftar',
             'nama.required' => 'Nama harus di isi', 
-            'email.required' => 'Email harus di isi',
-            'email.email' => 'Email tidak valid',
-            'email.unique' => 'Email sudah terdaftar',
-            'jurusan_id.required' => 'Jurusan harus dipilih',
-            'semester_id.required' => 'Semester harus dipilih',
             'kelas_id.required' => 'Kelas harus dipilih'
         ]);
 
@@ -60,22 +46,14 @@ class MahasiswaController extends Controller
         // request()->file('gambar')->storeAs('mahasiswa', $filename);
 
         Mahasiswa::create([
-            'jurusan_id' => request('jurusan_id'),
-            'semester_id' => request('semester_id'),
             'kelas_id' => request('kelas_id'),
-            'nim' => strtoupper(request('nim')),
+            'nis' => strtoupper(request('nis')),
             'nama' => ucwords(request('nama')),
-            'email' => request('email'),
+            'telepon' => request('telepon'),
+            'alamat' => request('alamat'),
             'gambar' => 'user-prof.png'
         ]);
-
-        User::create([
-            'email' => request('email'),
-            'nama' => strtoupper(request('nama')),
-            'password' => bcrypt('password'),
-            'role' => 'user'
-        ]);
-
+        
         return response()->json([
             'message' => 'mahasiswa berhasil ditambahkan'
         ]);
@@ -92,15 +70,9 @@ class MahasiswaController extends Controller
         //update mahasiswa
         $mahasiswa->update([
             'nama' => ucwords(request('nama')),
-            'jurusan_id' => request('jurusan_id'),
-            'semester_id' => request('semester_id'),
-            'kelas_id' => request('kelas_id')
-        ]);
-
-        //update user
-        $user = User::where('email', $mahasiswa->email)->first();
-        $user->update([
-            'nama' => ucwords(request('nama'))
+            'kelas_id' => request('kelas_id'),
+            'telepon' => request('telepon'),
+            'alamat' => request('alamat')
         ]);
 
         return response()->json([
@@ -112,10 +84,6 @@ class MahasiswaController extends Controller
     {
         //hapus mahasiswa
         $mahasiswa->delete();
-
-        //hapus user
-        $user = User::where('email', $mahasiswa->email)->first();
-        $user->delete();
 
         return response()->json([
             'message' => 'mahasiswa dan user berhasil dihapus'

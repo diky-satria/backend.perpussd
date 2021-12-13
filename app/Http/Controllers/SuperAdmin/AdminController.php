@@ -4,7 +4,6 @@ namespace App\Http\Controllers\SuperAdmin;
 
 use App\Models\Buku;
 use App\Models\User;
-use App\Models\Jurusan;
 use App\Models\Mahasiswa;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
@@ -15,14 +14,12 @@ class AdminController extends Controller
     public function count()
     {
         $mahasiswa = Mahasiswa::all()->count();
-        $jurusan = Jurusan::all()->count();
         $buku = Buku::all()->count();
         $transaksi = Transaksi::where('status', 0)->count();
 
         return response()->json([
             'message' => 'hitung data',
             'mahasiswa' => $mahasiswa,
-            'jurusan' => $jurusan,
             'buku' => $buku,
             'transaksi' => $transaksi
         ]);

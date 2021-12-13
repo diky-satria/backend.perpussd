@@ -9,17 +9,7 @@ class Mahasiswa extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['jurusan_id','semester_id','kelas_id','nim','nama','email','gambar'];
-
-    public function jurusan()
-    {
-        return $this->belongsTo(Jurusan::class);
-    }
-
-    public function semester()
-    {
-        return $this->belongsTo(Semester::class);
-    }
+    protected $fillable = ['kelas_id','nis','nama','telepon','alamat','gambar'];
 
     public function kelas()
     {

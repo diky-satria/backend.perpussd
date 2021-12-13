@@ -29,7 +29,6 @@ use App\Http\Controllers\SuperAdmin\AdminController;
 */
 // Auth::loginUsingId(34);
 
-Route::get('/bukuHome', [BukuController::class, 'bukuHome']);
 Route::get('/lihatUser', [MeController::class, 'lihat']);
 
 Route::middleware('auth:sanctum')->group(function(){
@@ -81,7 +80,4 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::post('/mahasiswa/ubahProfil', [MahasiswaController::class, 'ubahProfil']);
     Route::patch('/mahasiswa/ubahPassword/{user:id}', [MahasiswaController::class, 'ubahPassword']);
-
-    Route::get('/user', [UserController::class, 'index']);
-    Route::get('/user/detailRiwayat/{transaksi:kode}', [UserController::class, 'riwayat']);
 });

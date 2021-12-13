@@ -18,17 +18,6 @@ class BukuController extends Controller
         return BukuResource::collection($buku);
     }
 
-    public function bukuHome()
-    {
-        $search = request('search');
-        if($search){
-            $buku = Buku::where('judul', 'LIKE', "%$search%")->orderBy('judul', 'ASC')->paginate(12);
-        }else{
-            $buku = Buku::orderBy('judul', 'ASC')->paginate(12);
-        }
-        return BukuResource::collection($buku);
-    }
-
     public function show(Buku $buku)
     {
         $lokasi = Lokasi::orderBy('id', 'ASC')->get();

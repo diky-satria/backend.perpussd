@@ -141,7 +141,7 @@ class TransaksiController extends Controller
         request()->validate([
             'mahasiswa_id' => 'required'
         ],[
-            'mahasiswa_id.required' => 'Mahasiswa harus dipilih'
+            'mahasiswa_id.required' => 'Siswa / i harus dipilih'
         ]);
         
         $transaksi = Transaksi::where('kode', $kode)->first();

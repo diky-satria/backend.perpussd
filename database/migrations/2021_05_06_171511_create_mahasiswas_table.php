@@ -15,15 +15,12 @@ class CreateMahasiswasTable extends Migration
     {
         Schema::create('mahasiswas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('jurusan_id');
-            $table->foreign('jurusan_id')->references('id')->on('jurusans');
-            $table->foreignId('semester_id');
-            $table->foreign('semester_id')->references('id')->on('semesters');
             $table->foreignId('kelas_id');
             $table->foreign('kelas_id')->references('id')->on('kelas');
-            $table->string('nim');
+            $table->string('nis');
             $table->string('nama');
-            $table->string('email');
+            $table->string('telepon')->nullable();
+            $table->text('alamat')->nullable();
             $table->string('gambar')->nullable();
             $table->timestamps();
         });
